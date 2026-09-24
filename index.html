@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="開店易 — 幫人開店拿牌。餐飲及開店辦牌顧問服務，套餐起步價 HK$23,000。" />
+  <title>開店易｜幫人開店拿牌</title>
+  <style>
+    :root {
+      --navy: #1A202C;
+      --navy-soft: #2D3748;
+      --gold: #E8A84A;
+      --gold-light: #FCD17B;
+      --gold-dark: #D4922E;
+      --bg: #FAF8F5;
+      --bg-card: #FFFFFF;
+      --muted: #718096;
+      --border: #E2E8F0;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(26, 32, 44, 0.08);
+      --max: 1080px;
+      --font: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 5.5rem; }
+
+    body {
+      font-family: var(--font);
+      color: var(--navy);
+      background: var(--bg);
+      line-height: 1.7;
+      font-size: 1rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+
+    .container {
+      width: min(100% - 2rem, var(--max));
+      margin-inline: auto;
+    }
+
+    /* —— Header —— */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 248, 245, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.65rem 0;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-shrink: 0;
+    }
+
+    .logo-link img {
+      height: 52px;
+      width: auto;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: 0.04em;
+      color: var(--navy);
+    }
+
+    .nav {
+      display: none;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .nav a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--navy-soft);
+      transition: color 0.2s;
+    }
+
+    .nav a:hover,
+    .nav a:focus-visible {
+      color: var(--gold-dark);
+      outline: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.7rem 1.35rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+      font-family: inherit;
+      line-height: 1.3;
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid var(--gold-light);
+      outline-offset: 2px;
+    }
+
+    .btn:active { transform: scale(0.98); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+      color: var(--navy);
+      box-shadow: 0 4px 14px rgba(232, 168, 74, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%);
+      box-shadow: 0 6px 18px rgba(232, 168, 74, 0.45);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: var(--navy);
+      color: var(--navy);
+    }
+
+    .btn-outline:hover {
+      background: var(--navy);
+      color: #fff;
+    }
+
+    .btn-whatsapp {
+      background: #25D366;
+      color: #fff;
+      border-color: #25D366;
+    }
+
+    .btn-whatsapp:hover {
+      background: #1ebe57;
+      border-color: #1ebe57;
+    }
+
+    .btn-lg {
+      padding: 0.9rem 1.75rem;
+      font-size: 1.05rem;
+    }
+
+    .btn-block { width: 100%; }
+
+    .header-cta { flex-shrink: 0; }
+
+    .menu-toggle {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      padding: 0.4rem;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .menu-toggle:focus-visible {
+      outline: 3px solid var(--gold-light);
+      outline-offset: 2px;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--navy);
+      border-radius: 1px;
+    }
+
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 0 0 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .mobile-nav.open { display: flex; }
+
+    .mobile-nav a {
+      padding: 0.75rem 0.25rem;
+      font-weight: 500;
+      color: var(--navy-soft);
+    }
+
+    .mobile-nav a:hover { color: var(--gold-dark); }
+
+    /* —— Hero —— */
+    .hero {
+      padding: 3.5rem 0 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 55%;
+      height: 80%;
+      background: radial-gradient(ellipse, rgba(252, 209, 123, 0.28) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 2.5rem;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.3rem 0.85rem;
+      background: rgba(232, 168, 74, 0.15);
+      color: var(--gold-dark);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      letter-spacing: 0.02em;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 2.85rem);
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: 0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 .accent {
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-lead {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 34em;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+    }
+
+    .hero-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card .price-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .hero-card .price {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+    }
+
+    .hero-card .price small {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--gold-dark);
+    }
+
+    .hero-card .disclaimer {
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.5;
+      padding-top: 0.75rem;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* —— Sections —— */
+    section {
+      padding: 4rem 0;
+    }
+
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.55rem, 3.5vw, 2rem);
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      max-width: 38em;
+      margin-bottom: 2rem;
+    }
+
+    .section-alt {
+      background: #fff;
+      border-block: 1px solid var(--border);
+    }
+
+    /* —— Services —— */
+    .service-grid {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.4rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .service-card:hover {
+      border-color: var(--gold-light);
+      box-shadow: var(--shadow);
+    }
+
+    .service-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(232, 168, 74, 0.2), rgba(252, 209, 123, 0.35));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .service-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .service-card p {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .price-box {
+      margin-top: 2rem;
+      background: var(--navy);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 1.75rem 1.5rem;
+      display: grid;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .price-box .from {
+      font-size: 0.9rem;
+      opacity: 0.75;
+    }
+
+    .price-box .amount {
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 800;
+      color: var(--gold-light);
+    }
+
+    .price-box .note {
+      font-size: 0.88rem;
+      opacity: 0.85;
+      line-height: 1.55;
+    }
+
+    /* —— Forms —— */
+    .form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem 1.5rem;
+      box-shadow: var(--shadow);
+      max-width: 560px;
+    }
+
+    .form-group {
+      margin-bottom: 1.15rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.4rem;
+      color: var(--navy);
+    }
+
+    .form-group .hint {
+      font-weight: 400;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 1rem;
+      color: var(--navy);
+      background: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(232, 168, 74, 0.25);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 100px; }
+
+    .form-row {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .placeholder-note {
+      margin-top: 1.25rem;
+      padding: 0.85rem 1rem;
+      background: rgba(232, 168, 74, 0.1);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 8px 8px 0;
+      font-size: 0.9rem;
+      color: var(--navy-soft);
+    }
+
+    /* —— Contact —— */
+    .contact-wrap {
+      text-align: center;
+      max-width: 480px;
+      margin-inline: auto;
+    }
+
+    .contact-wrap .section-desc {
+      margin-inline: auto;
+    }
+
+    .contact-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      align-items: stretch;
+      margin-top: 0.5rem;
+    }
+
+    .phone-link {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: var(--navy);
+      padding: 0.5rem;
+    }
+
+    .phone-link:hover { color: var(--gold-dark); }
+
+    /* —— Footer —— */
+    .site-footer {
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* —— Responsive —— */
+    @media (min-width: 640px) {
+      .form-row { grid-template-columns: 1fr 1fr; }
+      .service-grid { grid-template-columns: 1fr 1fr; }
+      .price-box {
+        grid-template-columns: auto 1fr;
+        gap: 1.5rem 2rem;
+        padding: 2rem;
+      }
+      .price-box .amount { grid-column: 1; grid-row: 1 / 3; align-self: center; }
+      .contact-actions {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+      }
+      .btn-block { width: auto; }
+    }
+
+    @media (min-width: 768px) {
+      .nav { display: flex; }
+      .menu-toggle { display: none; }
+      .mobile-nav { display: none !important; }
+      .logo-link img { height: 60px; }
+      .hero { padding: 5rem 0 5.5rem; }
+      .hero-grid { grid-template-columns: 1.4fr 1fr; gap: 3rem; }
+      .service-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (min-width: 960px) {
+      .container { width: min(100% - 3rem, var(--max)); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#top" class="logo-link" aria-label="開店易首頁">
+        <img src="assets/logo.png" alt="開店易標誌" width="120" height="120" />
+      </a>
+
+      <nav class="nav" aria-label="主要導覽">
+        <a href="#services">服務與價</a>
+        <a href="#quote">取得報價</a>
+        <a href="#booking">預約諮詢</a>
+        <a href="#contact">聯絡</a>
+      </nav>
+
+      <a class="btn btn-whatsapp header-cta" href="https://wa.me/85291376072" target="_blank" rel="noopener noreferrer">
+        WhatsApp
+      </a>
+
+      <button type="button" class="menu-toggle" id="menuToggle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobileNav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <nav class="mobile-nav container" id="mobileNav" aria-label="手機導覽" hidden>
+      <a href="#services">服務與價</a>
+      <a href="#quote">取得報價</a>
+      <a href="#booking">預約諮詢</a>
+      <a href="#contact">聯絡</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div>
+          <span class="hero-badge">餐飲／開店辦牌顧問</span>
+          <h1 id="hero-title">幫人<span class="accent">開店拿牌</span><br />少走冤枉路</h1>
+          <p class="hero-lead">
+            開店易專注協助新店東處理開業牌照與相關手續，特別是餐飲業。由諮詢到文件準備，讓你專心開店。
+          </p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary btn-lg" href="#quote">取得報價</a>
+            <a class="btn btn-outline btn-lg" href="#booking">預約諮詢</a>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="套餐價資訊">
+          <p class="price-label">辦牌套餐 · 起步價</p>
+          <p class="price">HK$23,000 <small>起</small></p>
+          <p class="disclaimer">
+            此為起步／套餐價，實際費用視個案情況而定（牌照類型、店舖條件、文件複雜度等），並非最終固定報價。歡迎先聯絡了解。
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="section-alt" aria-labelledby="services-title">
+      <div class="container">
+        <p class="section-label">SERVICES</p>
+        <h2 class="section-title" id="services-title">服務與價</h2>
+        <p class="section-desc">
+          我們協助處理開店相關牌照申請與文書流程，尤其適合餐廳、cafe 等餐飲業主。按你的店舖類型與情況，釐清需要甚麼牌、怎樣準備，減少來回奔走。
+        </p>
+
+        <div class="service-grid">
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">📋</div>
+            <h3>牌照諮詢</h3>
+            <p>釐清你的店舖需要哪些牌照與許可，避免漏辦、錯辦。</p>
+          </article>
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">🍽️</div>
+            <h3>餐飲辦牌</h3>
+            <p>餐廳、cafe 等食肆相關牌照申請流程協助與文件準備。</p>
+          </article>
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">🗂️</div>
+            <h3>文件與跟進</h3>
+            <p>整理申請文件、跟進進度，讓開業時間表更清晰。</p>
+          </article>
+        </div>
+
+        <div class="price-box">
+          <div class="amount">HK$23,000<span style="font-size:0.5em;opacity:0.9"> 起</span></div>
+          <p class="from">辦牌套餐 · 起步／套餐價</p>
+          <p class="note">實際視個案而定（牌照種類、店舖條件、複雜程度等），並非固定最終報價。提交資料後我們會透過 WhatsApp 回覆初步評估。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quote form -->
+    <section id="quote" aria-labelledby="quote-title">
+      <div class="container">
+        <p class="section-label">QUOTE</p>
+        <h2 class="section-title" id="quote-title">取得報價</h2>
+        <p class="section-desc">
+          填寫以下資料，提交後會開啟 WhatsApp，預填訊息傳送給我們（852 9137 6072）。無需電郵，直接對話最快捷。
+        </p>
+
+        <form class="form-card" id="quoteForm" novalidate>
+          <div class="form-group">
+            <label for="q-name">姓名 <span class="hint">（必填）</span></label>
+            <input type="text" id="q-name" name="name" required autocomplete="name" placeholder="您的稱呼" />
+          </div>
+          <div class="form-group">
+            <label for="q-phone">電話／WhatsApp <span class="hint">（必填）</span></label>
+            <input type="tel" id="q-phone" name="phone" required autocomplete="tel" placeholder="例如 9123 4567" />
+          </div>
+          <div class="form-group">
+            <label for="q-type">店舖類型 <span class="hint">（必填）</span></label>
+            <select id="q-type" name="shopType" required>
+              <option value="" disabled selected>請選擇</option>
+              <option value="餐廳">餐廳</option>
+              <option value="cafe">Cafe</option>
+              <option value="其他">其他</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="q-desc">簡短說明</label>
+            <textarea id="q-desc" name="description" placeholder="例如：打算開西餐廳，位置／大概規模／想了解哪些牌……"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">經 WhatsApp 送出報價請求</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Booking -->
+    <section id="booking" class="section-alt" aria-labelledby="booking-title">
+      <div class="container">
+        <p class="section-label">BOOKING</p>
+        <h2 class="section-title" id="booking-title">預約諮詢</h2>
+        <p class="section-desc">
+          選擇你方便的日期與時段，提交後同樣會開啟 WhatsApp 預填預約訊息。我們會盡快確認能否安排。
+        </p>
+
+        <form class="form-card" id="bookingForm" novalidate>
+          <div class="form-group">
+            <label for="b-name">姓名 <span class="hint">（必填）</span></label>
+            <input type="text" id="b-name" name="name" required autocomplete="name" placeholder="您的稱呼" />
+          </div>
+          <div class="form-group">
+            <label for="b-phone">電話／WhatsApp <span class="hint">（必填）</span></label>
+            <input type="tel" id="b-phone" name="phone" required autocomplete="tel" placeholder="例如 9123 4567" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="b-date">希望日期 <span class="hint">（必填）</span></label>
+              <input type="date" id="b-date" name="date" required />
+            </div>
+            <div class="form-group">
+              <label for="b-time">希望時間 <span class="hint">（必填）</span></label>
+              <input type="time" id="b-time" name="time" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="b-notes">備註</label>
+            <textarea id="b-notes" name="notes" placeholder="想討論的內容、店舖大致情況等（選填）"></textarea>
+          </div>
+          <p class="placeholder-note">服務地區／時段：待補</p>
+          <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-top:1.25rem">經 WhatsApp 送出預約</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" aria-labelledby="contact-title">
+      <div class="container contact-wrap">
+        <p class="section-label">CONTACT</p>
+        <h2 class="section-title" id="contact-title">聯絡我們</h2>
+        <p class="section-desc">
+          有疑問或想即時傾？歡迎 WhatsApp 或致電。目前暫未提供電郵聯絡。
+        </p>
+        <div class="contact-actions">
+          <a class="btn btn-whatsapp btn-lg" href="https://wa.me/85291376072" target="_blank" rel="noopener noreferrer">
+            開啟 WhatsApp（9137 6072）
+          </a>
+          <a class="phone-link" href="tel:91376072">☎ 9137 6072</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 開店易 · 範本草稿</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var WA_NUMBER = "85291376072";
+
+      // Mobile menu
+      var toggle = document.getElementById("menuToggle");
+      var mobileNav = document.getElementById("mobileNav");
+      if (toggle && mobileNav) {
+        toggle.addEventListener("click", function () {
+          var open = mobileNav.classList.toggle("open");
+          mobileNav.hidden = !open;
+          toggle.setAttribute("aria-expanded", open ? "true" : "false");
+          toggle.setAttribute("aria-label", open ? "關閉選單" : "開啟選單");
+        });
+        mobileNav.querySelectorAll("a").forEach(function (link) {
+          link.addEventListener("click", function () {
+            mobileNav.classList.remove("open");
+            mobileNav.hidden = true;
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.setAttribute("aria-label", "開啟選單");
+          });
+        });
+      }
+
+      function openWhatsApp(text) {
+        var url = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(text);
+        window.open(url, "_blank", "noopener,noreferrer");
+      }
+
+      function val(id) {
+        var el = document.getElementById(id);
+        return el ? (el.value || "").trim() : "";
+      }
+
+      // Quote form → WhatsApp
+      var quoteForm = document.getElementById("quoteForm");
+      if (quoteForm) {
+        quoteForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var name = val("q-name");
+          var phone = val("q-phone");
+          var type = val("q-type");
+          var desc = val("q-desc");
+          if (!name || !phone || !type) {
+            quoteForm.reportValidity();
+            return;
+          }
+          var lines = [
+            "【開店易 · 報價請求】",
+            "姓名：" + name,
+            "電話／WhatsApp：" + phone,
+            "店舖類型：" + type,
+            "說明：" + (desc || "（無）")
+          ];
+          openWhatsApp(lines.join("\n"));
+        });
+      }
+
+      // Booking form → WhatsApp
+      var bookingForm = document.getElementById("bookingForm");
+      if (bookingForm) {
+        bookingForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var name = val("b-name");
+          var phone = val("b-phone");
+          var date = val("b-date");
+          var time = val("b-time");
+          var notes = val("b-notes");
+          if (!name || !phone || !date || !time) {
+            bookingForm.reportValidity();
+            return;
+          }
+          var lines = [
+            "【開店易 · 預約諮詢】",
+            "姓名：" + name,
+            "電話／WhatsApp：" + phone,
+            "希望日期：" + date,
+            "希望時間：" + time,
+            "備註：" + (notes || "（無）"),
+            "服務地區／時段：待補"
+          ];
+          openWhatsApp(lines.join("\n"));
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
