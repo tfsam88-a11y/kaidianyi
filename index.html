@@ -382,6 +382,54 @@
       color: var(--muted);
     }
 
+    .liquor-promo {
+      display: grid;
+      gap: 0;
+      margin: 1.75rem 0 2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .liquor-promo img {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+
+    .liquor-promo-body {
+      padding: 1.25rem 1.35rem 1.4rem;
+    }
+
+    .liquor-promo h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 0.15rem 0 0.55rem;
+    }
+
+    .liquor-copy {
+      color: var(--navy-soft);
+      margin-bottom: 1rem;
+    }
+
+    @media (min-width: 800px) {
+      .liquor-promo {
+        grid-template-columns: 1.45fr 1fr;
+        align-items: stretch;
+      }
+
+      .liquor-promo-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 1.5rem 1.75rem;
+      }
+    }
+
     .price-box {
       margin-top: 2rem;
       background: var(--navy);
@@ -614,6 +662,16 @@
           我們協助處理開店相關牌照申請與文書流程，尤其適合餐廳、cafe 等餐飲業主。按你的店舖類型與情況，釐清需要甚麼牌、怎樣準備，減少來回奔走。
         </p>
 
+        <article class="liquor-promo">
+          <img src="assets/liquor-licence-transfer.jpg" width="1280" height="720" alt="酒吧木櫃檯上的酒杯、文件夾與鑰匙，畫面標示酒牌轉讓" />
+          <div class="liquor-promo-body">
+            <p class="section-label">LIQUOR</p>
+            <h3>酒牌轉讓</h3>
+            <p class="liquor-copy">頂手酒吧或餐廳，酒牌不可直接轉名。須向酒牌局重新申請，並經警方審查。代辦文件跟進，助你合規開業。</p>
+            <a class="btn btn-primary" href="#quote">查詢酒牌安排</a>
+          </div>
+        </article>
+
         <div class="service-grid">
           <article class="service-card">
             <div class="service-icon" aria-hidden="true">📋</div>
@@ -664,6 +722,7 @@
               <option value="" disabled selected>請選擇</option>
               <option value="餐廳">餐廳</option>
               <option value="cafe">Cafe</option>
+              <option value="酒吧／酒牌轉讓">酒吧／酒牌轉讓</option>
               <option value="其他">其他</option>
             </select>
           </div>
